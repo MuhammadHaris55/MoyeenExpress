@@ -13,3 +13,14 @@ Text midText(String text, double size) {
     ),
   );
 }
+
+Text regText(String text, double size) {
+  return Text(
+    text,
+    style: GoogleFonts.poppins(
+      fontWeight: FontWeight.w400,
+      fontSize: size.sp,
+      color: textColor,
+    ),
+  );
+}

@@ -163,7 +163,7 @@ class _SignUpState extends State<SignUp> {
                     SizedBox(height: 30),
                     ElevatedButton(
                       style: buttonDesign,
-                      child: button_design(screen, "Create Account"),
+                      child: button_design(334, "Create Account"),
                       onPressed: () {
                         // if (formKey.currentState.validate()) {
                         //   setState(() {

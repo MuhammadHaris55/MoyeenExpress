@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:moyeen_express/controllers/productcontroller.dart';
+import 'package:moyeen_express/screens/productDetail.dart';
 import 'package:moyeen_express/styling/appColors.dart';
 import 'package:moyeen_express/styling/textWidget.dart';
 
@@ -249,7 +250,10 @@ class Home extends StatelessWidget {
                               itemCount: productController.productList.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    // Get.to(ProductDetail(index: index));
+                                    Get.to(ProductDetail());
+                                  },
                                   child: Padding(
                                     padding: EdgeInsets.only(right: 10.w),
                                     child: Container(
@@ -283,18 +287,21 @@ class Home extends StatelessWidget {
                                                   BorderRadius.circular(18.r),
                                               child: Image(
                                                 fit: BoxFit.fill,
-                                                image: AssetImage(
-                                                  'images/running_shoes_PNG5816@2x.png',
+                                                image: NetworkImage(
+                                                  'https://test-urls.com/elitedesignhub/moyen-express/public/storage/public/products/${productController.productList[index].images[0].name}',
                                                 ),
                                               ),
                                             ),
                                           ),
                                           // midText('Nike AirMax', 14),
+                                          // midText('R 499', 18),
                                           midText(
                                               productController
                                                   .productList[index].name,
                                               14),
-                                          midText('R 499', 18),
+                                          midText(
+                                              '${productController.productList[index].price}',
+                                              18),
                                         ],
                                       ),
                                     ),

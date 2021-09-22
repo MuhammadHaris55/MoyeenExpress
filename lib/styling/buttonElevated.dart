@@ -9,12 +9,12 @@ final ButtonStyle buttonDesign = ElevatedButton.styleFrom(
   ),
 );
 
-Container button_design(screen, String text) {
+Container button_design(int width, String text) {
   return Container(
     height: 58,
-    width: screen.width / 1.1,
+    width: width.w,
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(10.r),
       color: Colors.orange,
     ),
     child: Center(
