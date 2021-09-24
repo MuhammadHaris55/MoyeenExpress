@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:moyeen_express/controllers/productcontroller.dart';
+import 'package:moyeen_express/screens/cart.dart';
 import 'package:moyeen_express/screens/productDetail.dart';
 import 'package:moyeen_express/styling/appColors.dart';
 import 'package:moyeen_express/styling/textWidget.dart';
@@ -36,7 +37,9 @@ class Home extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.to(Cart());
+            },
             icon: Icon(
               Icons.shopping_cart,
               color: textColor,
@@ -252,7 +255,10 @@ class Home extends StatelessWidget {
                                 return GestureDetector(
                                   onTap: () {
                                     // Get.to(ProductDetail(index: index));
-                                    Get.to(ProductDetail());
+                                    Get.to(ProductDetail(
+                                      productController: productController,
+                                      prod_index: index,
+                                    ));
                                   },
                                   child: Padding(
                                     padding: EdgeInsets.only(right: 10.w),
