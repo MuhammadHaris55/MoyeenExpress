@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:moyeen_express/controllers/productcontroller.dart';
+import 'package:moyeen_express/controllers/productdetailscontroller.dart';
 import 'package:moyeen_express/screens/cart.dart';
 import 'package:moyeen_express/screens/productDetail.dart';
 import 'package:moyeen_express/styling/appColors.dart';
@@ -14,6 +15,9 @@ class Home extends StatelessWidget {
   final ProductController productController = Get.put(
     ProductController(),
   ); // TO OPEN THE DRAWER THROUGH THE ICON BUTTON ONPRESSED
+  final ProductDetailsController productDetailsController = Get.put(
+    ProductDetailsController(),
+  );
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
@@ -254,11 +258,11 @@ class Home extends StatelessWidget {
                               itemBuilder: (BuildContext context, int index) {
                                 return GestureDetector(
                                   onTap: () {
-                                    // Get.to(ProductDetail(index: index));
-                                    Get.to(ProductDetail(
-                                      productController: productController,
-                                      prod_index: index,
-                                    ));
+                                    productDetailsController.updateID(index);
+                                    Get.to(() => ProductDetail(
+                                        // productController: productController,
+                                        // prod_index: index,
+                                        ));
                                   },
                                   child: Padding(
                                     padding: EdgeInsets.only(right: 10.w),

@@ -19,6 +19,7 @@ class ProductController extends GetxController {
       if (products != null) {
         print(products);
         productList.value = products;
+        print(productList.value);
       }
     } finally {
       isLoading(false);

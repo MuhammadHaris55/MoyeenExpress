@@ -3,11 +3,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:moyeen_express/models/cart.dart';
 import 'package:moyeen_express/models/product.dart';
+import 'package:moyeen_express/models/productdetails.dart';
 
 class RemoteServices {
   static var client = http.Client();
 
-//GET API FUNCTION
+//GET PRODUCTS API FUNCTION
   static Future<List<Product>?> fetchProducts() async {
     var response = await client.get(Uri.parse(
       // 'https://makeup-api.herokuapp.com/api/v1/products.json?brand=maybelline',
@@ -16,6 +17,22 @@ class RemoteServices {
     if (response.statusCode == 200) {
       var jsonString = response.body;
       return productFromJson(jsonString);
+    } else {
+      //show error message
+      return null;
+    }
+  }
+
+  //GET PRODUCTDETAILS API FUNCTION
+  static Future<List<ProductDetails>?> fetchProductDetails(var id) async {
+    var response = await client.get(Uri.parse(
+      'https://test-urls.com/elitedesignhub/moyen-express/public/api/get-product-by-id/${id}',
+    ));
+    if (response.statusCode == 200) {
+      var jsonString = response.body;
+      print('remoteservice');
+      print(jsonString);
+      return productDetailsFromJson(jsonString);
     } else {
       //show error message
       return null;
@@ -40,18 +57,13 @@ class RemoteServices {
         headers: {"Content-Type": "application/json"}, body: body);
     if (response.statusCode == 200) {
       var jsonString = response.body;
-      var npm = json.decode(jsonString);
-      print("${npm['cart'][0]}");
-      print("Body start ------------");
-      // print("${response.body}");
-      print("${jsonString.length}");
-      print("Body end ------------");
-      var dec = json.encode(npm['cart'][0]);
+      var str = cartProductFromJson(jsonString);
+      print(str);
+      // return str;
       // return cartProductFromJson(jsonString);
-      // return cartProductFromJson(dec);
     } else {
       //show error message
-      return null;
+      return jsonDecode(response.body);
     }
   }
 }

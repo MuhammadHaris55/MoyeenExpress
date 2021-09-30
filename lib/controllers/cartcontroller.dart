@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:moyeen_express/models/cart.dart';
 import 'package:moyeen_express/services/remote_services.dart';
@@ -44,6 +46,7 @@ class CartController extends GetxController {
 
   var isLoading = true.obs;
   var cartProductList = <CartProduct>[].obs;
+  var attributeProductList = [].obs;
 
   @override
   void onInit() {
@@ -63,5 +66,13 @@ class CartController extends GetxController {
     } finally {
       isLoading(false);
     }
+  }
+
+  List conToList(data) {
+    List list = [];
+    // list = json.decode(data);
+    attributeProductList = json.decode(data);
+    print(list);
+    return list;
   }
 }

@@ -680,6 +680,8 @@ class GetAttributeValue {
   DateTime updatedAt;
   int productId;
   String? value;
+  // List<String> value;
+  // List value = [];
   Attribute attribute;
 
   factory GetAttributeValue.fromJson(Map<String, dynamic> json) =>
@@ -690,6 +692,8 @@ class GetAttributeValue {
         updatedAt: DateTime.parse(json["updated_at"]),
         productId: json["product_id"],
         value: json["value"] == null ? null : json["value"],
+        // value: json["value"],
+        // value: List<String>.from((json["value"].strip("")).map((x) => x)),
         attribute: Attribute.fromJson(json["attribute"]),
       );
 
@@ -699,7 +703,9 @@ class GetAttributeValue {
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
         "product_id": productId,
+        // "value": value == null ? null : value,
         "value": value == null ? null : value,
+        // "value": List<dynamic>.from(value.map((x) => x)),
         "attribute": attribute.toJson(),
       };
 }
