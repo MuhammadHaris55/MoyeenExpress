@@ -310,6 +310,9 @@ class Home extends StatelessWidget {
                                                   .productList[index].name,
                                               14),
                                           midText(
+                                              '${productController.productList[index].id}',
+                                              14),
+                                          midText(
                                               '${productController.productList[index].price}',
                                               18),
                                         ],

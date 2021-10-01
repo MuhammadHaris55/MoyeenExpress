@@ -142,7 +142,7 @@ class GetAttributeValue {
         updatedAt: DateTime.parse(json["updated_at"]),
         productId: json["product_id"],
         value: List<String>.from(
-            json["value"] == null ? null : json["value"].map((x) => x)),
+            json["value"] == null ? [] : json["value"].map((x) => x)),
         attribute: Attribute.fromJson(json["attribute"]),
       );
 
