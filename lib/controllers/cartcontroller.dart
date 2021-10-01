@@ -56,12 +56,15 @@ class CartController extends GetxController {
 
   void fetchCartProducts(product_id, attribute) async {
     try {
+      cartProductList.value = [];
       isLoading(true);
       var cartProducts =
           await RemoteServices.fetchCartProducts(product_id, attribute);
       if (cartProducts != null) {
         print(cartProducts);
         cartProductList.value = cartProducts;
+        print(cartProductList);
+        // Get.snackbar('title', cartProductList[0].message);
       }
     } finally {
       isLoading(false);
