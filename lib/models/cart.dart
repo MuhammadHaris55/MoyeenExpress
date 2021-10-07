@@ -320,7 +320,7 @@ class GetProducts {
   int isDiscounted;
   int hasVariations;
   int discountedPrice;
-  int discountedPercentage;
+  int? discountedPercentage;
   int status;
   DateTime createdAt;
   DateTime updatedAt;

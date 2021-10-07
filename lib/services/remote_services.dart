@@ -66,4 +66,20 @@ class RemoteServices {
       return jsonDecode(response.body);
     }
   }
+
+  //GET CARTPRODUCT after delete a product API FUNCTION
+  static Future<List<CartProduct>?> fetchCartDeleteProduct(var id) async {
+    var response = await client.get(Uri.parse(
+      'https://test-urls.com/elitedesignhub/moyen-express/public/api/cart-delete/${id}',
+    ));
+    if (response.statusCode == 200) {
+      var jsonString = response.body;
+      print('remoteservice');
+      print(jsonString);
+      return cartProductFromJson(jsonString);
+    } else {
+      //show error message
+      return null;
+    }
+  }
 }

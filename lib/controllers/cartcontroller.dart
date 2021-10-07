@@ -47,6 +47,7 @@ class CartController extends GetxController {
   var isLoading = true.obs;
   var cartProductList = <CartProduct>[].obs;
   var attributeProductList = [].obs;
+  var totalPrice = 0;
 
   @override
   void onInit() {
@@ -54,6 +55,7 @@ class CartController extends GetxController {
     super.onInit();
   }
 
+  //Fetch the cart list after adding the item
   void fetchCartProducts(product_id, attribute) async {
     try {
       cartProductList.value = [];
@@ -63,6 +65,34 @@ class CartController extends GetxController {
       if (cartProducts != null) {
         print(cartProducts);
         cartProductList.value = cartProducts;
+        totalPrice = 0;
+        for (var i = 0; i < cartProductList[0].cart.length; i++) {
+          totalPrice += (cartProductList[0].cart[i].getProducts.price *
+              cartProductList[0].cart[i].quantity);
+        }
+        print(cartProductList);
+        // Get.snackbar('title', cartProductList[0].message);
+      }
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  //Fetch the cart list after delete the item
+  void fetchCartDeleteProduct(id) async {
+    try {
+      cartProductList.value = [];
+      isLoading(true);
+      var cartProducts = await RemoteServices.fetchCartDeleteProduct(id);
+      if (cartProducts != null) {
+        print(cartProducts);
+        cartProductList.value = cartProducts;
+        totalPrice = 0;
+        for (var i = 0; i < cartProductList[0].cart.length; i++) {
+          // totalPrice += cartProductList[0].cart[i].getProducts.price;
+          totalPrice += (cartProductList[0].cart[i].getProducts.price *
+              cartProductList[0].cart[i].quantity);
+        }
         print(cartProductList);
         // Get.snackbar('title', cartProductList[0].message);
       }
