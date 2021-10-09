@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:moyeen_express/screens/categories.dart';
 import 'package:moyeen_express/screens/home.dart';
+import 'package:moyeen_express/screens/signin.dart';
 import 'package:moyeen_express/styling/drawerAndBotttomBar/bottomBar.dart';
 
 void main() {
@@ -24,8 +25,9 @@ class MyApp extends StatelessWidget {
           GetPage(name: "/home", page: () => Home()),
           GetPage(name: "/categories", page: () => Categories()),
           GetPage(name: "/nav", page: () => BottomBar()),
+          GetPage(name: "/signing", page: () => MyStatelessWidget()),
         ],
-        initialRoute: "/nav",
+        initialRoute: "/signing",
         // home: MyHomePage(title: 'Flutter Demo Home Page'),
       ),
       designSize: Size(428, 926),

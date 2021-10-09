@@ -14,6 +14,13 @@ final shadowColor = Color(0xffE5E5E5);
 final homeColor = Color(0xffFFFDF6);
 final appbarColor = Color(0xff000924);
 
+//moyenn express bilal
+final creamyColor = Color(0xffFFDDC9);
+final cartwhiteColor = Color(0xffF3F5F7);
+final linesColor = Color(0xffB2B2B2);
+final brownColor = Color(0xffB64400);
+final orangeFocusColor = Color(0xffE9691D);
+
 //  w300 → Light
 //  w400 → regular
 //  w500 → Medium
