@@ -824,7 +824,7 @@ class GetVendor {
   });
 
   int id;
-  Username username;
+  Username? username;
   Email email;
   Password password;
   GetVendorImage image;

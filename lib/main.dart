@@ -4,16 +4,33 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:moyeen_express/screens/categories.dart';
 import 'package:moyeen_express/screens/home.dart';
-import 'package:moyeen_express/screens/signin.dart';
+import 'package:moyeen_express/screens/signing.dart';
 import 'package:moyeen_express/styling/drawerAndBotttomBar/bottomBar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+
+void main() async {
   runApp(MyApp());
 }
 
+// FOR SHARED PREFERENCES
+setVisitingFlag() async {
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  preferences.setBool("alreadyVisited", true);
+}
+
+getVisitingFlag() async {
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  bool alreadyVisited = preferences.getBool("alreadyVisited") ?? false;
+  return alreadyVisited;
+}
+// FOR SHARED PREFERENCES
+
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
+
     return ScreenUtilInit(
       builder: () => GetMaterialApp(
         debugShowCheckedModeBanner: false,
@@ -25,7 +42,7 @@ class MyApp extends StatelessWidget {
           GetPage(name: "/home", page: () => Home()),
           GetPage(name: "/categories", page: () => Categories()),
           GetPage(name: "/nav", page: () => BottomBar()),
-          GetPage(name: "/signing", page: () => MyStatelessWidget()),
+          GetPage(name: "/signing", page: () => Signing()),
         ],
         initialRoute: "/signing",
         // home: MyHomePage(title: 'Flutter Demo Home Page'),

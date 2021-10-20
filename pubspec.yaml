@@ -41,6 +41,9 @@ dependencies:
   #for http request_permissiom
   http: ^0.13.3
 
+  #  For save cache
+  shared_preferences: ^2.0.7
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

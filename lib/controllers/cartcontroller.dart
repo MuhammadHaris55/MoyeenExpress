@@ -56,7 +56,8 @@ class CartController extends GetxController {
   }
 
   //Fetch the cart list after adding the item
-  void fetchCartProducts(product_id, attribute) async {
+  // void fetchCartProducts(product_id, attribute) async {
+  Future<bool> fetchCartProducts(product_id, attribute) async {
     try {
       cartProductList.value = [];
       isLoading(true);
@@ -72,10 +73,12 @@ class CartController extends GetxController {
         }
         print(cartProductList);
         // Get.snackbar('title', cartProductList[0].message);
+        return true;
       }
     } finally {
       isLoading(false);
     }
+    return false;
   }
 
   //Fetch the cart list after delete the item

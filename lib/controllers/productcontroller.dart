@@ -13,6 +13,7 @@ class ProductController extends GetxController {
   }
 
   void fetchProducts() async {
+  // Future? fetchProducts() async {
     try {
       isLoading(true);
       var products = await RemoteServices.fetchProducts();

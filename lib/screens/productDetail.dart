@@ -285,6 +285,8 @@ class ProductDetail extends StatelessWidget {
                           productDetailsController.attributeList,
                           // ['attribute']
                         );
+                          Get.snackbar("Success", "Your desired project added to your cart");
+                          Get.to(Cart());
                       },
                     ),
                     SizedBox(height: 20.h),

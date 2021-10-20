@@ -33,12 +33,15 @@ class Cart extends StatelessWidget {
         title: midText('Cart', 18),
         centerTitle: true,
       ),
-      body: cartController.cartProductList.isEmpty
+      body: Obx(
+            () => cartController.cartProductList.isEmpty
           ? Center(
               child: Text('your cart is empty'),
             )
-          : Obx(
-              () => Container(
+          :
+      // Obx(
+      //         () =>
+                  Container(
                 color: Colors.white,
                 // height: 198.h,
                 child: cartController.isLoading == true
@@ -223,7 +226,9 @@ class Cart extends StatelessWidget {
                                               SizedBox(width: 20.0.w),
                                               IconButton(
                                                 iconSize: 17.0,
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  Get.snackbar('WARNING', "Functionality under development");
+                                                },
                                                 icon: Icon(
                                                   Icons.favorite_border,
                                                 ),
@@ -245,7 +250,9 @@ class Cart extends StatelessWidget {
                                               Spacer(),
                                               IconButton(
                                                 iconSize: 17.0,
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  Get.snackbar('WARNING', "Functionality under development");
+                                                },
                                                 icon: Icon(
                                                   Icons.remove_circle,
                                                   color: Colors.orange,
@@ -261,7 +268,9 @@ class Cart extends StatelessWidget {
                                                   )),
                                               IconButton(
                                                 iconSize: 17.0,
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  Get.snackbar('WARNING', "Functionality under development");
+                                                },
                                                 icon: Icon(
                                                   Icons.add_circle,
                                                   color: Colors.orange,

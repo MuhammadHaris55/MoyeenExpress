@@ -34,7 +34,9 @@ class Home extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.snackbar('WARNING', "Functionality under development");
+            },
             icon: Icon(
               Icons.search,
               color: textColor,
@@ -72,7 +74,9 @@ class Home extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           children: [
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Get.snackbar('WARNING', "Sample Products");
+                              },
                               child: Container(
                                 width: 172.w,
                                 height: 198.h,
@@ -119,7 +123,9 @@ class Home extends StatelessWidget {
                             ),
                             SizedBox(width: 10.w),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Get.snackbar('WARNING', "Sample Products");
+                              },
                               child: Container(
                                 width: 172.w,
                                 height: 198.h,
@@ -163,7 +169,9 @@ class Home extends StatelessWidget {
                             ),
                             SizedBox(width: 10.w),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Get.snackbar('WARNING', "Sample Products");
+                              },
                               child: Container(
                                 width: 172.w,
                                 height: 198.h,
@@ -213,7 +221,9 @@ class Home extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(left: 314.w),
                         child: OutlinedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.snackbar('WARNING', "Functionality under development");
+                          },
                           style: OutlinedButton.styleFrom(
                             primary: Colors.black87,
                             backgroundColor: itemBgColor,
@@ -329,7 +339,9 @@ class Home extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(left: 314.w),
                         child: OutlinedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.snackbar('WARNING', "Functionality under development");
+                          },
                           style: OutlinedButton.styleFrom(
                             primary: Colors.black87,
                             backgroundColor: itemBgColor,
