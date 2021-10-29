@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:moyeen_express/controllers/cartcontroller.dart';
+import 'package:moyeen_express/services/remote_services.dart';
 import 'package:moyeen_express/styling/appColors.dart';
 import 'package:moyeen_express/styling/textWidget.dart';
 
@@ -34,7 +35,9 @@ class Cart extends StatelessWidget {
         centerTitle: true,
       ),
       body: Obx(
-            () => cartController.cartProductList.isEmpty
+            () => cartController.isLoading == true
+                ? Center(child: CircularProgressIndicator())
+                : cartController.cartProductList.isEmpty
           ? Center(
               child: Text('your cart is empty'),
             )
@@ -44,9 +47,10 @@ class Cart extends StatelessWidget {
                   Container(
                 color: Colors.white,
                 // height: 198.h,
-                child: cartController.isLoading == true
-                    ? Center(child: CircularProgressIndicator())
-                    :
+                child:
+                // cartController.isLoading == true
+                //     ? Center(child: CircularProgressIndicator())
+                //     :
                     // Padding(
                     //     padding: EdgeInsets.symmetric(
                     //         horizontal: 37.0.w, vertical: 20.0.h),
@@ -156,7 +160,7 @@ class Cart extends StatelessWidget {
                           child: Column(
                             children: [
                               for (var i
-                                  in cartController.cartProductList[0].cart)
+                                  in cartController.cartProductList)
                                 Padding(
                                   padding:
                                       EdgeInsets.symmetric(vertical: 10.0.h),
@@ -188,7 +192,7 @@ class Cart extends StatelessWidget {
                                                   fit: BoxFit.fill,
                                                   image: NetworkImage(
                                                     // 'https://test-urls.com/elitedesignhub/moyen-express/public/storage/public/products/${cartController.cartProductList[0].cart[index].getProducts.imagesTake1.name}',
-                                                    'https://test-urls.com/elitedesignhub/moyen-express/public/storage/public/products/${i.getProducts.imagesTake1.name}',
+                                                    '${RemoteServices.imageUrl}${i.getProducts.images[0].name}',
                                                   ),
                                                 ),
                                               ),
@@ -239,9 +243,11 @@ class Cart extends StatelessWidget {
                                               IconButton(
                                                 iconSize: 17.0,
                                                 onPressed: () {
-                                                  cartController
-                                                      .fetchCartDeleteProduct(
-                                                          i.id);
+                                                  // cartController
+                                                  //     .fetchCartDeleteProduct(
+                                                  //         i.id);
+                                                  print('onscreen working ${i.id}');
+                                                  cartController.deleteCartProduct(i.id);
                                                 },
                                                 icon: Icon(
                                                   Icons.delete,

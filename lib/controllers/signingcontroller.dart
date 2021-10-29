@@ -4,17 +4,24 @@ import 'package:get/state_manager.dart';
 import 'package:moyeen_express/controllers/productcontroller.dart';
 import 'package:moyeen_express/models/productdetails.dart';
 import 'package:moyeen_express/models/signing.dart';
+import 'package:moyeen_express/models/signing/signUp.dart';
 import 'package:moyeen_express/services/remote_services.dart';
 import 'package:moyeen_express/styling/drawerAndBotttomBar/bottomBar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SigningController extends GetxController {
-  var isLoading = true.obs;
+  var isLoading = false.obs;
   var userList = <Signing>[].obs;
+  var userSList = <SignUp>[].obs;
   var attributeList = <String>[].obs;
+  var userId = null.obs;
 
   var appbarText = 'Login'.obs;
 
+  var passVisi = true.obs;
+  void passVisibility(){
+    passVisi.toggle();
+  }
 
   @override
   void onInit() {
@@ -22,6 +29,7 @@ class SigningController extends GetxController {
     checklogin();
     super.onInit();
   }
+
 
   void checklogin() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -32,6 +40,10 @@ class SigningController extends GetxController {
       Get.offAll(() => BottomBar());
 
     }
+  }
+
+  String validator(String? text){
+    return 'Please fill this field';
   }
 
   updateAppbarText(index){
@@ -63,7 +75,15 @@ class SigningController extends GetxController {
         userList.value = users;
         print(userList.value[0]);
 
-        return userList.value[0].status;
+    // SharedPreference
+    SharedPreferences pref =
+    await SharedPreferences.getInstance();
+        var user = await pref.setInt('userid', userList.first.user.id);
+
+        print('in controller fetchSignInUser function ${user}');
+
+
+        return userList.value[0].user.id;
       }
     } finally {
       isLoading(false);
@@ -77,11 +97,16 @@ class SigningController extends GetxController {
       isLoading(true);
       // var users = await RemoteServices.fetchProductDetails(id);
       var users = await RemoteServices.signUpUser(username, email, password, phone_number);
+      print('out user ${users}');
       if (users != null) {
-        userList.value = users;
-        print(userList.value[0]);
+      print('in controller');
+        // userList.value = users;
+        // print(userList.value[0]);
+        // return userList.value[0].status;
+      userSList.value = users;
 
-        return userList.value[0].status;
+        print(userSList.value[0]);
+        return userSList.value[0].status;
       }
     } finally {
       isLoading(false);

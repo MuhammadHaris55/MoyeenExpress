@@ -1,3 +1,4 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -5,6 +6,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:moyeen_express/screens/categories.dart';
 import 'package:moyeen_express/screens/home.dart';
 import 'package:moyeen_express/screens/signing.dart';
+import 'package:moyeen_express/styling/appColors.dart';
 import 'package:moyeen_express/styling/drawerAndBotttomBar/bottomBar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -44,7 +46,23 @@ class MyApp extends StatelessWidget {
           GetPage(name: "/nav", page: () => BottomBar()),
           GetPage(name: "/signing", page: () => Signing()),
         ],
-        initialRoute: "/signing",
+        home: AnimatedSplashScreen(
+          splash: 'images/logo.png',
+          backgroundColor: drawerDividerColor,
+          nextScreen: Signing(),
+          // nextScreen: "/signing",
+          splashTransition: SplashTransition.rotationTransition,
+          // splashTransition: SplashTransition.scaleTransition,
+          splashIconSize: 300,
+        ),
+        // initialRoute: AnimatedSplashScreen(
+        //   splash: 'images/logo.png',
+        //   nextScreen: Signing(),
+        //   // nextScreen: "/signing",
+        //   splashTransition: SplashTransition.rotationTransition,
+        //
+        // ),
+
         // home: MyHomePage(title: 'Flutter Demo Home Page'),
       ),
       designSize: Size(428, 926),

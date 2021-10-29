@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:moyeen_express/models/product.dart';
+import 'package:moyeen_express/models/product(old).dart';
 import 'package:moyeen_express/styling/appColors.dart';
 import 'package:moyeen_express/styling/textWidget.dart';
 

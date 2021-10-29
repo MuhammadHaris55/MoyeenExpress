@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:moyeen_express/controllers/cartcontroller.dart';
+import 'package:moyeen_express/controllers/productcontroller.dart';
 import 'package:moyeen_express/controllers/productdetailscontroller.dart';
+import 'package:moyeen_express/controllers/signingcontroller.dart';
 import 'package:moyeen_express/screens/cart.dart';
 import 'package:moyeen_express/styling/appColors.dart';
 import 'package:moyeen_express/styling/buttonElevated.dart';
 import 'package:moyeen_express/styling/textWidget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductDetail extends StatelessWidget {
   // final int prod_index;
@@ -15,13 +19,21 @@ class ProductDetail extends StatelessWidget {
   final ProductDetailsController productDetailsController =
       Get.put(ProductDetailsController());
 
-  // ProductDetail(
-  //     {Key? key,
-  //     required this.productController,
-  //     // this.product,
-  //     // this.quantity,
-  //     required this.prod_index})
-  //     : super(key: key);
+  final ProductController productController =
+  Get.put(ProductController());
+
+  final SigningController signingController =
+      Get.put(SigningController());
+
+  var prod_index;
+
+  ProductDetail(
+      {Key? key,
+      // required this.productController,
+      // this.product,
+      // this.quantity,
+      required this.prod_index})
+      : super(key: key);
 
   //FOR DROPDOWN
   String dogBreed = 'Labrador Retriever';
@@ -55,7 +67,8 @@ class ProductDetail extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Get.to(Cart());
+              cartController.cartCall();
+              Get.to(() => Cart());
             },
             icon: Icon(
               Icons.shopping_cart,
@@ -66,10 +79,12 @@ class ProductDetail extends StatelessWidget {
       ),
       body: Padding(
         padding: EdgeInsets.only(top: 20.h, left: 37.w),
-        child: Obx(
-          () => productDetailsController.isLoading == true
-              ? Center(child: CircularProgressIndicator())
-              : Column(
+        child:
+        // Obx(
+        //   () => productDetailsController.isLoading == true
+        //       ? Center(child: CircularProgressIndicator())
+        //       :
+          Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
@@ -77,8 +92,9 @@ class ProductDetail extends StatelessWidget {
                       height: 241.h,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: productDetailsController
-                            .productDetailsList[0].images.length,
+                        itemCount: productController.productList[prod_index].images.length,
+                        // productDetailsController
+                        //     .productDetailsList[0].images.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Container(
                             margin: EdgeInsets.only(right: 25.w),
@@ -100,7 +116,7 @@ class ProductDetail extends StatelessWidget {
                                 fit: BoxFit.fill,
                                 image: NetworkImage(
                                   // 'https://test-urls.com/elitedesignhub/moyen-express/public/storage/public/products/${productController.productList[prod_index].images[index].name}',
-                                  'https://test-urls.com/elitedesignhub/moyen-express/public/storage/public/products/${productDetailsController.productDetailsList[0].images[index].name}',
+                                  'https://test-urls.com/elitedesignhub/moyen-express/public/storage/public/products/${productController.productList[prod_index].images[index].name}',
                                 ),
                               ),
                             ),
@@ -130,33 +146,40 @@ class ProductDetail extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               midText(
-                                  '${productDetailsController.productDetailsList[0].name}',
+                                  // '${productDetailsController.productDetailsList[0].name}',
+                                  '${productController.productList[prod_index].name}',
                                   14),
                               Row(
                                 children: [
                                   regText('Category : ', 14),
                                   SizedBox(width: 5.w),
                                   midText(
-                                      productDetailsController
-                                          .productDetailsList[0]
+                                      // productDetailsController
+                                      //     .productDetailsList[0]
+                                      //     .getchildcategory
+                                      //     .name,
+                                      productController
+                                          .productList[prod_index]
                                           .getchildcategory
                                           .name,
                                       14),
                                 ],
                               ),
                               midText(
-                                  '${productDetailsController.productDetailsList[0].price}',
+                                  // '${productDetailsController.productDetailsList[0].price}',
+                                  '${productController.productList[prod_index].price}',
                                   14),
                               midText(
-                                  '${productDetailsController.productDetailsList[0].id}',
+                                  '${productController.productList[prod_index].id}',
                                   14),
                               Wrap(
                                 children: [
                                   midText('Description : ', 14),
                                   SizedBox(width: 5.w),
                                   regText(
-                                      productDetailsController
-                                          .productDetailsList[0].description,
+                                      // productDetailsController
+                                      //     .productDetailsList[0].description,
+                                        productController.productList[prod_index].description,
                                       14),
                                 ],
                               ),
@@ -199,77 +222,102 @@ class ProductDetail extends StatelessWidget {
                               //     : Container(),
                               // attrDropdown(dogBreed, breedlist),
 
-                              Text(
-                                '${productDetailsController.productDetailsList[0].getAttributeValues[0].value}',
-                              ),
-
                               // attrDropdown(dogBreed, breedlist),
-                              Container(
-                                height: 60.0.h *
-                                    productDetailsController
-                                        .productDetailsList[0]
-                                        .getAttributeValues
-                                        .length,
-                                child: productDetailsController
-                                            .productDetailsList[0]
-                                            .getAttributeValues[0]
-                                            .value !=
-                                        null
-                                    ? ListView.builder(
+                          Obx(
+                                () => Container(
+                                height: 100.0.h *
+                                    // productDetailsController
+                                    //     .productDetailsList[0]
+                                    //     .getAttributeValues
+                                    //     .length,
+                                    productController.productList[prod_index].getAttributeValues
+                                    .length,
+                                child:
+                                // productDetailsController
+                                //             .productDetailsList[0]
+                                //             .getAttributeValues[0]
+                                //             .value
+                                productController.attributeList[0].isNotEmpty
+                                //     !=
+                                // // productController.productList[prod_index].getAttributeValues.first.value !=
+                                //         null
+                                    ?
+                                ListView.builder(
                                         // scrollDirection: Axis.vertical,
-                                        itemCount: productDetailsController
-                                            .productDetailsList[0]
-                                            .getAttributeValues
+                                        itemCount:
+                                        // productDetailsController
+                                        //     .productDetailsList[0]
+                                        //     .getAttributeValues
+                                        //     .length,
+                                        productController.productList[prod_index].getAttributeValues
                                             .length,
                                         itemBuilder:
                                             (BuildContext context, int index) {
-                                          return Obx(
-                                            () => DropdownButton<dynamic>(
-                                              isExpanded: true,
-                                              hint: Text(
-                                                'Select your dog\'s breed',
-                                                textAlign: TextAlign.center,
-                                              ),
-                                              // value: dogBreed,
-                                              value: productDetailsController
-                                                  .attributeList[index],
-                                              // productDetailsController
-                                              //     .productDetailsList[0]
-                                              //     .getAttributeValues[index]
-                                              //     .value
-                                              //     .first,
-                                              onChanged: (value) {
-                                                // productDetailsController
-                                                //           .attributeList[index] =
-                                                //       value,
-                                                productDetailsController
-                                                    .updateattributeList(
-                                                        value, index);
-                                                // setState(() {
-                                                //   dogBreed = value;
-                                                // });
-                                              },
-                                              // items: a.map(buildMenuItem).toList(),
-                                              items: productDetailsController
-                                                  .productDetailsList[0]
-                                                  .getAttributeValues[index]
-                                                  .value
-                                                  .map(buildMenuItem)
-                                                  .toList(),
-                                              // items: breedlist.map((value) {
-                                              //   return DropdownMenuItem(
-                                              //     value: value,
-                                              //     child: Text(
-                                              //       value,
-                                              //     ),
-                                              //   );
-                                              // }).toList(),
-                                            ),
+                                          return Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(height: 20.0.h),
+                                                midText(
+                                                    productController.productList[prod_index].getAttributeValues[index].attribute.name,
+                                                    18,
+                                                ),
+                                                DropdownButton<dynamic>(
+                                                  isExpanded: true,
+                                                  hint: Text(
+                                                    'Select your dog\'s breed',
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                  // // value: dogBreed,
+                                                  // value: productDetailsController
+                                                  //     .attributeList[index],
+                                                  value:
+                                                  productController.attributeList[index],
+
+                                                  // // productDetailsController
+                                                  // //     .productDetailsList[0]
+                                                  // //     .getAttributeValues[index]
+                                                  // //     .value
+                                                  // //     .first,
+                                                  onChanged: (value) {
+                                                    productController.updateattributeList(value, index);
+                                                    // // productDetailsController
+                                                    // //           .attributeList[index] =
+                                                    // //       value,
+                                                    // productDetailsController
+                                                    //     .updateattributeList(
+                                                    //         value, index);
+                                                    // // setState(() {
+                                                    // //   dogBreed = value;
+                                                    // // });
+                                                  },
+                                                  // items: a.map(buildMenuItem).toList(),
+                                                  items:
+                                                  // productDetailsController
+                                                  //     .productDetailsList[0]
+                                                  //     .getAttributeValues[index]
+                                                  //     .value
+                                                  //     .map(buildMenuItem)
+                                                  //     .toList(),
+                                                  productController.productList[prod_index].getAttributeValues[index]
+                                                      .value
+                                                      .map(buildMenuItem)
+                                                      .toList(),
+                                                  // items: breedlist.map((value) {
+                                                  //   return DropdownMenuItem(
+                                                  //     value: value,
+                                                  //     child: Text(
+                                                  //       value,
+                                                  //     ),
+                                                  //   );
+                                                  // }).toList(),
+                                                ),
+                                              ],
+
                                           );
                                         },
                                       )
                                     : Container(),
-                              ),
+                              ),),
                             ],
                           ),
                         ),
@@ -279,20 +327,25 @@ class ProductDetail extends StatelessWidget {
                     ElevatedButton(
                       style: buttonDesign,
                       child: button_design(353, "Add to Cart"),
-                      onPressed: () {
-                        cartController.fetchCartProducts(
-                          productDetailsController.productDetailsList[0].id,
-                          productDetailsController.attributeList,
-                          // ['attribute']
-                        );
-                          Get.snackbar("Success", "Your desired project added to your cart");
-                          Get.to(Cart());
+                      onPressed: () async {
+                        // cartController.fetchCartProducts(
+                        //   productController.productList[prod_index].id,
+                        //   productController.attributeList,
+                        //   // ['attribute']
+                        // );
+                        //SHARED PREFERENCE
+                        SharedPreferences pref = await SharedPreferences.getInstance();
+                        var userid = pref.getInt('userid');
+                        print('onscreen ${userid}');
+                        await productController.addToCart(productController.productList[prod_index].id, userid, productController.attributeList);
+                          Get.snackbar("Alert", productController.message.toString());
+                          // Get.to(Cart());
                       },
                     ),
                     SizedBox(height: 20.h),
                   ],
                 ),
-        ),
+        // ),
       ),
     );
   }

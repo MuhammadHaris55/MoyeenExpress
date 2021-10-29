@@ -4,10 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:moyeen_express/controllers/cartcontroller.dart';
 import 'package:moyeen_express/controllers/productcontroller.dart';
 import 'package:moyeen_express/controllers/productdetailscontroller.dart';
 import 'package:moyeen_express/screens/cart.dart';
 import 'package:moyeen_express/screens/productDetail.dart';
+import 'package:moyeen_express/services/remote_services.dart';
 import 'package:moyeen_express/styling/appColors.dart';
 import 'package:moyeen_express/styling/textWidget.dart';
 
@@ -18,6 +20,7 @@ class Home extends StatelessWidget {
   final ProductDetailsController productDetailsController = Get.put(
     ProductDetailsController(),
   );
+  final CartController cartController = Get.put(CartController(),);
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
@@ -44,7 +47,9 @@ class Home extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              Get.to(Cart());
+              //THIS FUNCTION CALL THE GET CART FUNCTION ============
+              cartController.cartCall();
+              Get.to(() => Cart());
             },
             icon: Icon(
               Icons.shopping_cart,
@@ -268,10 +273,11 @@ class Home extends StatelessWidget {
                               itemBuilder: (BuildContext context, int index) {
                                 return GestureDetector(
                                   onTap: () {
-                                    productDetailsController.updateID(index);
+                                    productController.attributelistinitiate(index);
+                                    // productDetailsController.updateID(index);
                                     Get.to(() => ProductDetail(
                                         // productController: productController,
-                                        // prod_index: index,
+                                        prod_index: index,
                                         ));
                                   },
                                   child: Padding(
@@ -308,7 +314,8 @@ class Home extends StatelessWidget {
                                               child: Image(
                                                 fit: BoxFit.fill,
                                                 image: NetworkImage(
-                                                  'https://test-urls.com/elitedesignhub/moyen-express/public/storage/public/products/${productController.productList[index].images[0].name}',
+                                                  // 'https://test-urls.com/elitedesignhub/moyen-express/public/storage/public/products/${productController.productList[index].images[0].name}',
+                                                  '${RemoteServices.imageUrl}${productController.productList[index].images[0].name}',
                                                 ),
                                               ),
                                             ),

@@ -109,10 +109,14 @@ static const List<Tab> tabs = <Tab>[
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         TextFormField(
+
                           cursorColor: Colors.orange,
                           decoration: InputDecoration(
                             hintText: 'Enter Your Email',
-
+                            prefixIcon: Icon(
+                              Icons.email_outlined,
+                              color: themeColor,
+                            ),
                             labelText: 'Email ',
                             labelStyle: TextStyle(
                               color: Colors.orange,
@@ -130,44 +134,59 @@ static const List<Tab> tabs = <Tab>[
                           //   // This optional block of code can be used to run
                           //   // code when the user saves the form.
                           // },
-                          // validator: (String? value) {
-                          //   return (value != null
-                          //       // && value.contains('@')
-                          //   )
-                          //       ? ''
-                          //   // 'Do not use the @ char.'
-                          //       : null;
-                          // },
+                          validator: (String? value) {
+                            return (value != null
+                                // && value.contains('@')
+                            )
+                                ? 'fill'
+                            // 'Do not use the @ char.'
+                                : 'Please enter value';
+                          },
                         ),
                         SizedBox(
                           height: 20.0.h,
                         ),
-                        TextFormField(
-                          cursorColor: Colors.orange,
-                          decoration: InputDecoration(
-                            hintText: 'Enter Your Password?',
-                            labelText: 'Password ',
-                            labelStyle: TextStyle(color: Colors.orange),
-                            fillColor: Colors.orange,
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                              BorderSide(color: Colors.orange, width: 2.0),
-                              // borderRadius: BorderRadius.circular(25.0),
-                            ),
+                        Obx(
+                          () => TextFormField(
 
-                            // focusColor: orangeFocusColor,
-                            // focusedBorder:InputBorder.none
+                            validator: (text) => signingController.validator(text),
+                            obscureText: signingController.passVisi.value,
+                            cursorColor: Colors.orange,
+                            decoration: InputDecoration(
+                              suffixIcon: IconButton(
+                                icon: Icon(signingController.passVisi != true ? Icons.visibility : Icons.visibility_off, color: Colors.orange,),
+                                onPressed: (){
+                                  signingController.passVisibility();
+                                },
+                              ),
+                              prefixIcon: Icon(
+                                Icons.lock,
+                                color: themeColor,
+                              ),
+                              hintText: 'Enter Your Password?',
+                              labelText: 'Password ',
+                              labelStyle: TextStyle(color: Colors.orange),
+                              fillColor: Colors.orange,
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                BorderSide(color: Colors.orange, width: 2.0),
+                                // borderRadius: BorderRadius.circular(25.0),
+                              ),
+
+                              // focusColor: orangeFocusColor,
+                              // focusedBorder:InputBorder.none
+                            ),
+                            controller: _passwordController,
+                            // onSaved: (String? value) {
+                            //   // This optional block of code can be used to run
+                            //   // code when the user saves the form.
+                            // },
+                            // validator: (String? value) {
+                            //   return (value != null && value.contains('@'))
+                            //       ? 'Do not use the @ char.'
+                            //       : null;
+                            // },
                           ),
-                          controller: _passwordController,
-                          // onSaved: (String? value) {
-                          //   // This optional block of code can be used to run
-                          //   // code when the user saves the form.
-                          // },
-                          // validator: (String? value) {
-                          //   return (value != null && value.contains('@'))
-                          //       ? 'Do not use the @ char.'
-                          //       : null;
-                          // },
                         ),
                         Row(
                           children: [
@@ -183,40 +202,48 @@ static const List<Tab> tabs = <Tab>[
                                 )),
                           ],
                         ),
+                        Obx(
+                              () => Center(
+                            child: signingController.isLoading == true ?
+                            CircularProgressIndicator()
+                            // Text('sdkfm')
+                                : Container(),
+                          ),
+                        ),
                         SizedBox(
                           height: 20.0.h,
                         ),
                         ElevatedButton(
                             style: buttonDesign,
                             onPressed: () async {
-
                               // if (signinformKey.currentState!.validate()) {
-
                               // setState(() {
                               //   isLoading = true;
                               // });
-
                               var email = _emailController.text.toString().trim();
                               var pass = _passwordController.text.toString().trim();
 
                               try {
                                 var res = await signingController.fetchSignInUser(email, pass);
-                                if(res == 1){
+                                if(res != 0){
                                   Get.off(() => BottomBar());
                                 }
                                 RemoteServices.signInUser(email, pass).then(
-                                        (value) async {
+                                          (value) async {
 
-                                      // SharedPreference
-                                      SharedPreferences pref =
-                                      await SharedPreferences.getInstance();
-                                      await pref.setString('email', email);
+                                        // SharedPreference
+                                        SharedPreferences pref =
+                                        await SharedPreferences.getInstance();
+                                        await pref.setString('email', email);
+                                        print('onscreen signing login ${res}');
+                                        await pref.setInt('userid', res);
+                                        print('on signing screen ${res}');
 
-                                      // Get.to(() => BottomBar());
-                                      // setState(() {
-                                      //   isLoading = false;
-                                      // });
-                                    }).catchError((e) {
+                                        // Get.to(() => BottomBar());
+                                        // setState(() {
+                                        //   isLoading = false;
+                                        // });
+                                      }).catchError((e) {
                                   // setState(() {
                                   //   isLoading = false;
                                   // });
@@ -290,6 +317,7 @@ static const List<Tab> tabs = <Tab>[
                           ),
                         ),
                         SizedBox(height: 10),
+
                       ],
                     ),
                   ),
@@ -412,14 +440,55 @@ static const List<Tab> tabs = <Tab>[
                                 ),
                               ),
                             ),
+                            SizedBox(height: 20),
+                            Obx(
+                                  () => Center(
+                                child: signingController.isLoading == true ?
+                                CircularProgressIndicator()
+                                // Text('sdkfm')
+                                    : Container(),
+                              ),
+                            ),
                             SizedBox(height: 30),
                             ElevatedButton(
                               style: buttonDesign,
                               child: button_design(334, "Create Account"),
-                              onPressed: () {
-                                // signupformKey
-                                Get.to(() => BottomBar());
-                              },
+                                onPressed: () async {
+
+                                  var username = _usernameController.text.toString().trim();
+                                  var email = _emailController.text.toString().trim();
+                                  var pass = _passwordController.text.toString().trim();
+                                  var phone = _phoneController.text.toString().trim();
+
+                                  try {
+                                    var res = await signingController.fetchSignUpUser(username, email, pass, phone);
+                                    print(res);
+                                    if(res == 1){
+                                      // Get.off(() => BottomBar());
+                                      print(tabController.index = 0);
+                                      tabController.addListener(() {
+                                        tabController.indexIsChanging;
+                                        Get.snackbar('Success', 'Registeration Completed Successfully');
+
+                                        _emailController.text = _usernameController.text = _phoneController.text = _passwordController.text = '';
+                                      });
+                                    }
+                                    RemoteServices.signUpUser(username, email, pass, phone).then(
+                                            (value) async {
+
+                                          // SharedPreference
+                                          SharedPreferences pref =
+                                          await SharedPreferences.getInstance();
+                                          await pref.setString('email', email);
+                                    }).catchError((e) {
+                                      print('catch error');
+                                      Get.snackbar('Error', e.toString());
+                                    });
+                                  } catch (e) {
+                                      print('error');
+                                    Get.snackbar('Error', 'Something went wrong.');
+                                  }
+                                }
                             ),
                             SizedBox(height: 30),
                             Center(
